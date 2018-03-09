@@ -37,19 +37,15 @@
             <div class='row'>
                 <div class='col-md-3'>
                     <strong><h3> Products </h3></strong>
-                    <?php
-                        while($arr = mysqli_fetch_assoc($res)){
-                            echo "<p>".$arr['productName']."</p>";
-                        }
-                    ?>    
-                </div>
-                <div class='col-md-3'>
-                    <h3> Price </h3>
-                    <?php
-                        while($ar = mysqli_fetch_assoc($pro)){
-                            echo "<p>".$ar['ProductPrice']."</p>";
-                        }
-                    ?>
+                    <div class='panel-group'>
+                            <?php    
+                                while($arr = mysqli_fetch_assoc($res)){
+                                    echo "<div class='panel panel-default'>";
+                                    echo "<div class='panel-body'>".$arr['productName']."<p>".$arr['ProductPrice']."</p></div>";
+                                    echo "</div>";
+                                }
+                            ?> 
+                    </div>
                 </div>
             </div>
         </div>

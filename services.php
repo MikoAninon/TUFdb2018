@@ -37,19 +37,16 @@
             <div class='row'>
                 <div class='col-md-3'>
                     <strong><h3> Services </h3></strong>
-                    <?php
-                        while($arr = mysqli_fetch_assoc($res)){
-                            echo "<p>".$arr['serviceName']."</p>";
-                        }
-                    ?>    
-                </div>
-                <div class='col-md-3'>
-                    <strong><h3> Price </h3></strong>
-                    <?php
-                        while($arr = mysqli_fetch_assoc($ser)){
-                            echo "<p>".$arr['ServicePrice']."</p>";
-                        }
-                    ?>    
+                    <div class='panel-group'>
+                                <?php    
+                                    while($arr = mysqli_fetch_assoc($res)){
+                                        echo "<div class='panel panel-default'>";
+                                        echo "<div class='panel-body'>".$arr['serviceName']."<p>".$arr['ServicePrice']."</p></div>";
+                                        echo "</div>";
+                                    }
+                                    
+                                ?> 
+                    </div>
                 </div>
             </div>
         </div>
