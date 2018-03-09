@@ -1,50 +1,71 @@
+<?php
+?>
+
 <html>
     <head>
-        <title> Login </title>
+        <title> Log in</title>
         <link rel='stylesheet' href='css/bootstrap.css'>
     </head>
     
     <style>
-        #hr{
-            background-color: black;
-            padding-top: 15px;
-            padding-bottom: 15px;
+        body{
+            margin:0;
+            padding:0;
         }
-        #header{
-            height:50px;
+        #navBar{
+            background-color: black;
             text-align: center;
         }
-        .colorfix{
+        #logo{
+            height:50px;
+         
+        }
+        .content{
+            margin-top:105px;
+        }
+        .formLabel{
+            text-align:center;
+        }
+        .inputEdit{
+            margin-top:5px;
+        }
+        .labelEdit{
+            margin-top:5px;
+        }
+        .buttonEdit{
+            margin-top:10px;
+            width:100%;
+        }
+        body{
+            background-color: black;
             color:white;
         }
-        .btnfix{
-            margin-top:10px;
+        .btn-danger{
+            background-color: darkred;
+            border-color: darkred;
         }
-        .formWidth{
-            width:100%;
+        #navEdit{
+            margin-top: 10px;
         }
     </style>
     
     <body>
         <div class='container-fluid'>
-            <div class='row' id='hr'>
-                    <div class='col-md-4 col-md-offset-5'>
-                        <a href='TUFHOME.php'><img src='images/logo-overdark.png' id='header'></a>
-                    </div>
-                    <div class='col-md-1'>
-                        <a class='colorfix' href='signup.php'> <h3> Sign up </h3> </a>
-                    </div>
+            <div class='row' id='nav Bar'>
+                <div class='col-md-1 col-md-offset-5' id='navEdit'>
+                    <a href='TUFHOME.php'><img src='images/logo-overdark.png' id='logo'></a>
+                </div>
             </div>
             <div class='row'>
                 <div class='col-md-4 col-md-offset-4'>
-                    <form class='formWidth'>
-                        <h2 style='text-align:center;'> Login </h4>
-                        <h5> Email </h5>
-                        <input type='text' class='form-control'>
-                        <h5> Password </h5>
-                        <input type='password' class='form-control'>
-                        <button type='submmit' class='btn btn-success form-control btnfix'> Login </button>
+                    <form class='content' method='POST' action='session.php'>
+                        <label for='usr' class='labelEdit'> Email </label>
+                        <input type='text' class='form-control inputEdit' name='eml' required>
+                        <label for='pwd' class='labelEdit'> Password </label>
+                        <input type='password' class='form-control inputEdit' name='lpwd' required>
+                        <button type='submit' class='btn btn-danger buttonEdit' name='Login'> Log in </button>
                     </form>
+                    <p>Don't have an account? Sign up <a href='signup.php'>here</a></p>
                 </div>
             </div>
         </div>

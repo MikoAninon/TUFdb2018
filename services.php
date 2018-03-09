@@ -1,11 +1,11 @@
 <?php
     require "index.php";
 
-    $query = "SELECT * FROM product";
+    $query = "SELECT * FROM service";
 
     $res = mysqli_query($conn,$query);
+    $ser = mysqli_query($conn,$query);
 
-    $pro = mysqli_query($conn,$query);
 ?>
 <html>
     <head>
@@ -36,20 +36,20 @@
             </div>
             <div class='row'>
                 <div class='col-md-3'>
-                    <strong><h3> Products </h3></strong>
+                    <strong><h3> Services </h3></strong>
                     <?php
                         while($arr = mysqli_fetch_assoc($res)){
-                            echo "<p>".$arr['productName']."</p>";
+                            echo "<p>".$arr['serviceName']."</p>";
                         }
                     ?>    
                 </div>
                 <div class='col-md-3'>
-                    <h3> Price </h3>
+                    <strong><h3> Price </h3></strong>
                     <?php
-                        while($ar = mysqli_fetch_assoc($pro)){
-                            echo "<p>".$ar['ProductPrice']."</p>";
+                        while($arr = mysqli_fetch_assoc($ser)){
+                            echo "<p>".$arr['ServicePrice']."</p>";
                         }
-                    ?>
+                    ?>    
                 </div>
             </div>
         </div>

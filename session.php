@@ -15,14 +15,17 @@
         $res = mysqli_query($conn,$query);
         
         if(mysqli_num_rows($res)!=0){
-            echo "<script type='text/javascript'>alert('found')";
+            
             while($arr = mysqli_fetch_assoc($res)){
-                $name = arr['fName'];
+                $_SESSION['fName'] = $arr['fName'];
+                $_SESSION['MI'] = $arr['mInitial'];
+                $_SESSION['lName'] = $arr['lName'];
+                $_SESSION['id'] = $arr['CustomerID'];
             }
-            header("Location : profile.php");
+            header('Location:profile.php');
         }else{
             //echo "<script type='text/javascript'>alert('Invalid email or password');</script>";
-            header('refresh:0;Location:TUFHOME.php;'); //TO redirect if login in fails   
+            header('Location:login.php'); //TO redirect if login in fails   
         }
     }
 
@@ -31,6 +34,7 @@
     if(isset($_POST['Logout'])){
         session_destroy();
         
-        header("Location:signin.php");
+        header("Location:login.php");
     }
 ?> 
+

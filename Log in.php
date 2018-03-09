@@ -18,10 +18,10 @@
         }
         #logo{
             height:50px;
-            width:200px; 
+         
         }
         .content{
-            margin-top:20px;
+            margin-top:105px;
         }
         .formLabel{
             text-align:center;
@@ -33,28 +33,39 @@
             margin-top:5px;
         }
         .buttonEdit{
-            margin-top:5px;
+            margin-top:10px;
             width:100%;
+        }
+        body{
+            background-color: black;
+            color:white;
+        }
+        .btn-danger{
+            background-color: darkred;
+            border-color: darkred;
+        }
+        #navEdit{
+            margin-top: 10px;
         }
     </style>
     
     <body>
         <div class='container-fluid'>
             <div class='row' id='nav Bar'>
-                <div class='col-md-1 col-md-offset-5'>
-                    <img src='images/logo-overdark.png' id='logo'>
+                <div class='col-md-1 col-md-offset-5' id='navEdit'>
+                    <a href='TUFHOME.php'><img src='images/logo-overdark.png' id='logo'></a>
                 </div>
             </div>
             <div class='row'>
                 <div class='col-md-4 col-md-offset-4'>
-                    <form class='content'>
-                        <h4 class='formLabel'> Log in </h4>
-                        <label for='usr' class='labelEdit'> Username </label>
-                        <input type='text' class='form-control inputEdit' name='usr'>
+                    <form class='content' method='POST' action='session.php'>
+                        <label for='usr' class='labelEdit'> Email </label>
+                        <input type='text' class='form-control inputEdit' name='eml' required>
                         <label for='pwd' class='labelEdit'> Password </label>
-                        <input type='text' class='form-control inputEdit' name='pwd'>
-                        <button type='submit' class='btn btn-success buttonEdit'> Log in </button>
+                        <input type='password' class='form-control inputEdit' name='lpwd' required>
+                        <button type='submit' class='btn btn-danger buttonEdit' name='Login'> Log in </button>
                     </form>
+                    <p>Don't have an account? Sign up <a href='signup.php'>here</a></p>
                 </div>
             </div>
         </div>
