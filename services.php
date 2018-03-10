@@ -44,7 +44,6 @@
                                         echo "<div class='panel-body'>".$arr['serviceName']."<p>".$arr['ServicePrice']."</p></div>";
                                         echo "</div>";
                                     }
-                                    
                                 ?> 
                     </div>
                 </div>

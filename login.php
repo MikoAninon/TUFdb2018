@@ -47,13 +47,17 @@
         #navEdit{
             margin-top: 10px;
         }
+        #header{
+            height:50px;
+            text-align: center;
+        }
     </style>
     
     <body>
         <div class='container-fluid'>
             <div class='row' id='nav Bar'>
                 <div class='col-md-1 col-md-offset-5' id='navEdit'>
-                    <a href='TUFHOME.php'><img src='images/logo-overdark.png' id='logo'></a>
+                    <a href='TUFHOME.php'><img src='images/logo-overdark.png' id='header'></a>
                 </div>
             </div>
             <div class='row'>

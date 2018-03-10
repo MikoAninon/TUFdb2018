@@ -14,7 +14,7 @@
         
         $res = mysqli_query($conn,$query);
         
-        if(mysqli_num_rows($res)!=0){
+        if(mysqli_num_rows($res)==1){
             
             while($arr = mysqli_fetch_assoc($res)){
                 $_SESSION['fName'] = $arr['fName'];
@@ -24,8 +24,8 @@
             }
             header('Location:profile.php');
         }else{
-            //echo "<script type='text/javascript'>alert('Invalid email or password');</script>";
-            header('Location:login.php'); //TO redirect if login in fails   
+            echo "<script type='text/javascript'>alert('Invalid email or password');</script>";
+            header('refresh:0;url=login.php'); //TO redirect if login in fails   
         }
     }
 

@@ -10,7 +10,7 @@
 <html>
     <head>
         <title>
-            Services 
+            Products 
         </title>
         <link rel='stylesheet' href='css/bootstrap.css'>
     </head>
@@ -42,12 +42,37 @@
                                 while($arr = mysqli_fetch_assoc($res)){
                                     echo "<div class='panel panel-default'>";
                                     echo "<div class='panel-body'>".$arr['productName']."<p>".$arr['ProductPrice']."</p></div>";
+                                    echo "<span hidden>".$arr['prodID']."</span>";
+                                    echo "<input id='clickMe' type='button' value='clickme' onclick='doFunction();' />";
                                     echo "</div>";
                                 }
                             ?> 
+                        
                     </div>
                 </div>
             </div>
         </div>
     </body>
 </html>
+<script src='jquery-3.2.1.min.js'></script>
+<script>
+ 
+        function doFunction()
+        { 
+            var id = $(event.target).prev().text();
+            alert(id);
+            
+            $.ajax({
+                type:'POST',
+                data:id,
+                url:'deleteProduct.php',
+                success: function(){}
+            });
+        }
+
+        
+</script>
+
+<script>
+
+</script>
