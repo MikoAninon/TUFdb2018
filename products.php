@@ -36,14 +36,14 @@
             </div>
             <div class='row'>
                 <div class='col-md-3'>
-                    <strong><h3> Products </h3></strong>
+                    <strong><h3> Products <input type='button' id='deleteMe' value='deleteAll' class='btn btn-danger'></h3></strong>
                     <div class='panel-group'>
                             <?php    
                                 while($arr = mysqli_fetch_assoc($res)){
                                     echo "<div class='panel panel-default'>";
                                     echo "<div class='panel-body'>".$arr['productName']."<p>".$arr['ProductPrice']."</p></div>";
                                     echo "<span hidden>".$arr['prodID']."</span>";
-                                    echo "<input id='clickMe' type='button' value='clickme' onclick='doFunction();' />";
+                                    echo "<input id='deleteMe' type='button' value='delete' />";
                                     echo "</div>";
                                 }
                             ?> 
@@ -56,21 +56,33 @@
 </html>
 <script src='jquery-3.2.1.min.js'></script>
 <script>
- 
-        function doFunction()
-        { 
-            var id = $(event.target).prev().text();
-            alert(id);
-            
-            $.ajax({
-                type:'POST',
-                data:id,
-                url:'deleteProduct.php',
-                success: function(){}
-            });
-        }
-
-        
+    $(document).ready(function(){
+        $(deleteMe).click(function()
+        {
+            if($(this).val() == 'deleteAll'){
+                $(event.target).nextAll().fadeOut();
+                $.ajax({
+                    type:'POST',
+                    data:{reqAll : 'delAll'},
+                    url:'deleteProduct.php',
+                    success: function(data){
+                        alert(data);
+                    }
+                });
+            } else if ($(this).val()== 'delete'){
+                var id = $(event.target).prev().text();
+                $(event.target).parent().fadeOut();
+                $.ajax({
+                    type:'POST',
+                    data:{id : id},
+                    url:'deleteProduct.php',
+                    success: function(data){
+                        alert(data);
+                    }
+                });
+            }
+        });
+    }); 
 </script>
 
 <script>
