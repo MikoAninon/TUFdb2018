@@ -7,8 +7,10 @@
     
     $rows = array();
 
-    while($arr = mysqli_fetch_array($res)){
-        $rows = $arr;
+    
+    
+    while($arr = mysqli_fetch_assoc($res)){
+        $rows[] = $arr;
     }
 
     echo json_encode($rows);

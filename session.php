@@ -21,8 +21,15 @@
                 $_SESSION['MI'] = $arr['mInitial'];
                 $_SESSION['lName'] = $arr['lName'];
                 $_SESSION['id'] = $arr['CustomerID'];
+                $_SESSION['email'] = $arr['email'];
+                
+                $email = $_SESSION['email'];
+                if ($email == 'Admin@tuf.com'){
+                    $_SESSION['admin'] = 'on';
+                    header('Location:products.php');
+                }
             }
-            header('Location:profile.php');
+            header('Location:newbooking.php');
         }else{
             echo "<script type='text/javascript'>alert('Invalid email or password');</script>";
             header('refresh:0;url=login.php'); //TO redirect if login in fails   
