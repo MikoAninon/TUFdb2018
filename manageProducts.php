@@ -1,7 +1,20 @@
 <?php
     require "index.php";
 
-    $data = "query not made";
+    $data = "Failed";
+
+    if(isset($_POST['i'])){
+        $name = mysqli_real_escape_string($conn,$_POST['n']);
+        $price = mysqli_real_escape_string($conn,$_POST['p']);
+        $id = mysqli_real_escape_string($conn,$_POST['i']);
+        $quantity = mysqli_real_escape_string($conn,$_POST['q']);
+        
+        $query = "UPDATE product SET productName='".$name."' , productPrice=".$price." , Quantity=".$quantity." WHERE prodID=".$id;  
+        
+        mysqli_query($conn,$query);
+        
+        $data = "Changes saved!";
+    }
 
     if(isset($_POST['id'])){
         $id = $_POST['id'];
@@ -17,11 +30,7 @@
             $data = "Finish editing product before deleting";
         }
                 
-    } else if ($_POST['reqAll']){
-        $query = "DELETE FROM product";
-        mysqli_query($conn,$query);
-        $data = "All products have been deleted";
-    } 
+    }
 
     echo $data;
 ?>

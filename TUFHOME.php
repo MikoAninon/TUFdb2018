@@ -1,8 +1,6 @@
 <?php
-    require "index.php";
-    
     include"session.php";
-
+    
     $query="SELECT address FROM branch";
     $res=mysqli_query($conn,$query);
 
@@ -11,6 +9,10 @@
     
     $sQuery="SELECT * FROM service";
     $sRes=mysqli_query($conn,$sQuery);
+
+    if(isset($_SESSION['admin'])){
+        header('location:managementPage.php');
+    }  
 ?>
 
 
@@ -69,7 +71,9 @@
             .formBtn{
                 margin-top:10px;
             }
-        
+            .hChange{
+                border: 1px solid black;
+            }
         </style>
             
     </head>
@@ -95,6 +99,7 @@
                                     echo "<button class='btn btn-default btn-block btnEdit'>book</button>";
                                 } else if (!isset($_SESSION['id'])) {
                                     echo "<button class='btn btn-default btn-block btnEdit'>Signup</button>";
+                                    
                                 }
                             ?>
                         
@@ -128,7 +133,8 @@
                             <div class="modal-body" id='book'>
                                 <?php       
                                     while($pArr = mysqli_fetch_assoc($pRes)){
-                                      echo "<h2>".$pArr['productName']."</h2><h2>".$pArr['ProductPrice']."</h2>";
+                                        echo "<h2>".$pArr['productName']."</h2><h2>".$pArr['ProductPrice']."</h2>";
+                                        echo "<hr class='hChange'>";
                                     }
                                 ?>    
                             </div>
@@ -150,6 +156,7 @@
                                 <?php       
                                     while($Arr = mysqli_fetch_assoc($res)){
                                         echo "<h2>".$Arr['address']."</h2>";
+                                        echo "<hr class='hChange'>";
                                     }
                                 ?>    
                             </div>
@@ -171,6 +178,7 @@
                                 <?php       
                                     while($sArr = mysqli_fetch_assoc($sRes)){
                                         echo "<h2>".$sArr['serviceName']."</h2><h2>".$sArr['ServicePrice']."</h2>";
+                                        echo "<hr class='hChange'>";
                                     }
                                 ?>    
                             </div>

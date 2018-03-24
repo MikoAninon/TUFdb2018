@@ -1,5 +1,9 @@
 <?php
-    require "index.php";
+    include"session.php";
+
+    if(!isset($_SESSION['admin'])){
+        header('location:TUFHOME.php');
+    }
 
     $query = "SELECT * FROM employees";
     $query2 = "SELECT address FROM branch";
@@ -43,13 +47,9 @@
                 <div class='col-md-10'>
                     <strong><h3> Employees </h3></strong> 
                     <button id='insert' class='btn btn-success' data-toggle="modal" data-target="#myModal">
-                        <span class='glyhpicon glyphicon-pencil'></span>
+                        Insert <span class='glyhpicon glyphicon-pencil'></span>
                     </button>
-                    <a href='topBarbers.php'>
-                        <button class='btn btn-success'>
-                            <span>Best Performing Barbers</span>
-                        </button>
-                    </a>
+                    
                     
                     <div id="myModal" class="modal fade" role="dialog">
                         <div class='modal-dialog'>
@@ -184,7 +184,8 @@
                         $("#Type").val('');
                         $("#branch").val('');
                         $("#gender").val('');
-                        
+                        $('#myModal').modal('hide');
+                        location.reload();
                     }
                 });
             

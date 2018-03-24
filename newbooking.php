@@ -50,6 +50,12 @@
         #profileContent{
             margin-top:25px;
         }
+        .barberstrong{
+            font-size: 20px;
+            margin-top: 10px;
+             
+            
+        }
     </style>
     <body>
         <div class='container-fluid'>
@@ -68,13 +74,13 @@
             </div>
             
         </div>
-        <div class='container-fluid'>
-            <h3><strong> Booking </strong></h3>
+        <div class='container-fluid' id='bookCon'>
+            <h3 class='barberstrong'><strong> Booking </strong></h3>
             <div class='col-md-4'>
 
                 <?php   
 
-                        echo "<select id='test' class='form-control'>";    
+                        echo "<select id='initbranch' class='form-control'>";    
                         echo "<option>Select Branch</option>";
                         while($arr = mysqli_fetch_assoc($res)){
                             echo "<option>".$arr['address']."</option>";
@@ -83,10 +89,11 @@
                         echo "</select>"; 
 
                 ?>
-                <div class='row' style='margin-top:15px;'>
-                    <div class='col-md-12' id='bs'></div>
-                    <div class='col-md-12' id='bss'></div>
-                    <div class='col-md-12' id='bsss'></div>
+                <div class='row' id='form' style='margin-top:15px;'>
+                    <div class='col-md-12' id='barberselect'></div>
+                    <div class='col-md-12' id='selectdate'></div>
+                    <div class='col-md-12' id='barberschedule'></div>
+                    <div class='col-md-12' id='inputsched'></div>
                 </div>    
             </div>
             <div class='col-md-4 col-md-offset-1'>
@@ -99,7 +106,7 @@
     </body>
 </html>
 <script>
-    var Year  = [];
+     var Name  = [];
     var Count = [];
     var arr = new Array();
     
@@ -107,24 +114,26 @@
         $.ajax({
             type:'POST',
             data:{data:'get'},
-            url:'frequency.php',
+            url:'Barberperformance.php',
             dataType:'JSON',
             success: function(data){
                 $.each(data,function(i){
                         
-                        
+                        Name.push(data[i].fName);
                         Count.push(parseInt(data[i].count));
-                        Year.push(data[i].year);
-                        //symbol.push(data[i].symbol);
+        
                  });
-                Chart(Year,Count);
+                Chart(Name,Count);
                 arr = data;
+                console.log(data);
+                console.log(Name);
+                console.log(Count);
             }
         });
     })
     
     
-    $('#test').on('change',function(){
+    $('#initbranch').on('change',function(){
         var selected = $(this).val();
         var barb = new Array();
         var ap ='';
@@ -138,7 +147,7 @@
             dataType:'JSON',
             success:function(data){
                 barb = data;
-                ap = '<select id="suway" class="form-control">';
+                ap = '<select id="barbername" class="form-control">';
                 blg = '<option>Select Barber</option>';
                 
                 for(var x=0;x<barb.length;x++){
@@ -147,54 +156,64 @@
                 ap += blg;
                 ap += op;
                 ap += '</select>';
-                $('#bs').html(ap);
-                //second function------------------------
-                 $('#suway').on('change',function(){
-                   var bname = $('#suway').val();
-                 //console.log(bname);
-                     $.ajax({
 
-                         type : 'POST',
-                         url : 'getsched.php',
-                         data : {sc:bname},
-                         dataType : 'JSON',
-                         success:function(sched){
-                             
-                             //console.log(sched);
-                             var schedule = "<strong>Barber's schedules for today:</strong>";
-                             var schedulearr=new Array();
-                             var p='';
-                             schedulearr = sched;
-                             for(var x=0;x<schedulearr.length;x+=2){
-                                 p+='<p>'+schedulearr[x]+'-'+schedulearr[x+1]+'</p>';
+                $('#barberselect').html(ap);
+                //second function------------------------  
+                     $('#barbername').on('change',function(){
+                       var bname = $('#barbername').val();
+                       var datesel = "<strong class='barberstrong'>Choose a booking date:</strong><input id='bookdate' type='date' class='form-control'></input>";
+                         
+                           
+                        $('#selectdate').html(datesel);
+                        
+                         $('#bookCon').on('change','#bookdate',function(){
+                             var selecteddate = $('#bookdate').val();
+
+                            $.ajax({
+                             type : 'POST',
+                             url : 'getsched.php',
+                             data : {sc:bname,bd:selecteddate},
+                             dataType : 'JSON',
+                             success:function(sched){
+                                 var schedule = '<div class="barberstrong"><strong>'+bname+'`s '+ 'schedules for the selected date:</strong></div>';
+                                 var tablestart = "<table class='table'><thead><tr><th>Time start</th><th>Time end</th><th>Date</th></tr></thead><tbody>";
+                                 var schedulearr=new Array();
+                                 var timestartrow='';
+                                 schedulearr = sched;
+                                 
+                                 console.log('sched'+schedulearr);
+                                 for(var x=0;x<schedulearr.length;x+=3){
+                                     timestartrow+='<tr><td>'+schedulearr[x]+'</td><td>'+schedulearr[x+1]+'</td><td>'+schedulearr[x+2]+'</td></tr>';
+                                 }
+                                 console.log(schedulearr);
+                                 schedule+=tablestart;
+                                 schedule+=timestartrow;
+                                 $('#barberschedule').html(schedule);
+
+                                 //last f---------------------------
+                                 var schedml = "<strong>Input a booking schedule:</strong><input id='time' type='time' class='form-control'>";
+                                 var bookbutton="<button type='button' id='book' class='btn btn-success form-control' style='margin-top:5px'>Book<span class='glyphicon glyphicon-ok'></span></button>";
+                                 var seshid = <?php echo $_SESSION['id']; ?>;
+                                   
+                                    schedml+=bookbutton;
+                                    $('#inputsched').html(schedml);   
+                                    $('#book').on('click',function(){ 
+                                    var gettime = $('#time').val();  
+                                    var validchecker="Invalid schedule!";    
+                                        $.ajax({
+                                            type : 'POST',
+                                            url : 'schedcheck.php',
+                                            data : {gt : gettime, bn : bname, sh: seshid,bd:selecteddate,br:$('#initbranch option:selected').val()},
+                                            success:function(schedcheck){
+                                                alert(schedcheck);                    
+                                            }
+                                        });
+
+                                 });
                              }
-                             schedule+=p;
-                             //console.log(schedule);
-                             $('#bss').html(schedule);
-                             
-                             //last f---------------------------
-                             var schedml = "<strong>Input a booking schedule:</strong><input id='time' type='time' class='form-control'>";
-                             var bookbutton="<button type='button' id='book' class='btn btn-success form-control' style='margin-top:5px'>Book<span class='glyphicon glyphicon-ok'></span></button>";
-                             var seshid = <?php echo $_SESSION['id']; ?>;
-                                //console.log(seshid);
-                                schedml+=bookbutton;
-                                $('#bsss').html(schedml);   
-                                $('#book').on('click',function(){ 
-                                var getdate = $('#time').val();
-                                
-                                    $.ajax({
-                                        type : 'POST',
-                                        url : 'schedcheck.php',
-                                        data : {gt : getdate, bn : bname, sh: seshid,br:$('#test option:selected').val()},
-                                        success:function(schedcheck){
-                                          alert(schedcheck);
-                                        }
-                                    });
-
-                             });
-                         }
-                 });
-            });
+                         });
+                         });
+                    });
         }
         
             
@@ -207,24 +226,24 @@
 
 <script src="code/highcharts.js"></script>
 <script>
-    function Chart (Year,Count){
+    function Chart (Name,Count){
         Highcharts.chart('graph', {
                     chart: {
                         type: 'column'
                     },
                     title: {
-                        text: 'Bookings For Each Year'
+                        text: 'Most Booked Barbers'
                     },
                     xAxis: {
-                        categories: Year,
+                        categories: Name,
                         title: {
-                            text: 'Year'
-                        }
+                            text: 'Barbers'
+                        },
                     },
                     yAxis: {
                         min: 0,
                         title: {
-                            text: 'Count'
+                            text: 'Amount of Bookings'
                         },
                         stackLabels: {
                             enabled: true,
@@ -259,10 +278,10 @@
                         }
                     },
                     series: [{
-                            name:'No. of bookings',
-                            data: Count
+                            name:'Volume',
+                            data: Count,
+                            color: 'darkred'
                     }]
                 });
             }
-</script>    
-
+</script>

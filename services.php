@@ -1,11 +1,10 @@
 <?php
-    require "index.php";
-    include "session.php";
+    require"index.php";
+    include"session.php";
 
     if(!isset($_SESSION['admin'])){
-        header('Location: Log in.php');
+        header('location:TUFHOME.php');
     }
-
 ?>
 <html>
     <head>
@@ -50,7 +49,7 @@
             </div>
             <div class='row'>
                 <div class='col-md-3'>
-                    <button id='insert' class='btn btn-success' data-toggle="modal" data-target="#myModal"> <span class='glyhpicon glyphicon-plus'>Add new product</span> </button>
+                    <button id='insert' class='btn btn-success' data-toggle="modal" data-target="#myModal"> <span class='glyhpicon glyphicon-plus'>Add new service</span> </button>
                 </div>
             </div>
               <div id="myModal" class="modal fade" role="dialog">
@@ -155,6 +154,7 @@
             var id = $(this).parent().prev().prev();
             var idVal = $(id).text();
 
+        
             $(event.target).parent().prev().prev().text();    
             $(event.target).parent().parent().fadeOut('slow');
             

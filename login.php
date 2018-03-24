@@ -1,4 +1,9 @@
 <?php
+    include "session.php";
+
+    if(isset($_SESSION['id'])){
+        header('location:TUFHOME.php');
+    }
 ?>
 
 <html>

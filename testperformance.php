@@ -9,23 +9,8 @@
         <script src='bootstrap.js'></script>
         
     </head>
-    <style>
-        #navBar{
-            height:70px;
-            background-color: black;
-        }
-        #logo{
-            margin-top:10px;
-            height:50px;
-        }
-    </style>
     <body>
         <div class='container-fluid'>
-            <div class='row' id='navBar'>
-                <div class='col-md-4 col-md-offset-5'>
-                    <a href='TUFHOME.php'><img src='images/logo-overdark.png' id='logo'></a>
-                </div>
-            </div>
             <div id='graph'>
             
             </div>
@@ -34,7 +19,7 @@
 </html>
 
 <script>
-    var address  = [];
+    var Day  = [];
     var Count = [];
     var arr = new Array();
     
@@ -42,45 +27,44 @@
         $.ajax({
             type:'POST',
             data:{data:'get'},
-            url:'chartbranch.php',
+            url:'frequency.php',
             dataType:'JSON',
             success: function(data){
                 $.each(data,function(i){
                         
-                        
+                        Day.push(data[i].day);
                         Count.push(parseInt(data[i].count));
-                        address.push(data[i].address);
                         //symbol.push(data[i].symbol);
                  });
-                Chart(address,Count);
+                Chart(Day,Count);
                 arr = data;
-//                console.log(data);
-//                console.log(Name);
-//                console.log(Count);
+                console.log(data);
+                console.log(Name);
+                console.log(Count);
             }
         });
     })
 </script>
 <script src="code/highcharts.js"></script>
 <script>
-    function Chart (address,Count){
+    function Chart (Name,Count){
         Highcharts.chart('graph', {
                     chart: {
                         type: 'column'
                     },
                     title: {
-                        text: 'Branch performance for this year'
+                        text: 'Overall TUF performance chart'
                     },
                     xAxis: {
-                        categories: address,
+                        categories: Name,
                         title: {
-                            text: 'Branches'
-                        }
+                            text: 'Dates'
+                        },
                     },
                     yAxis: {
                         min: 0,
                         title: {
-                            text: 'Count'
+                            text: 'No. of bookings'
                         },
                         stackLabels: {
                             enabled: true,
@@ -115,9 +99,8 @@
                         }
                     },
                     series: [{
-                            name:'No. of bookings',
-                            data: Count,
-                            color:"darkred"
+                            name:'Volume',
+                            data: Count
                     }]
                 });
             }

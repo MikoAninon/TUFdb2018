@@ -1,9 +1,11 @@
 <?php
-    require "index.php";
+    include"session.php";
 
-    
+    if(!isset($_SESSION['admin'])){
+        header('location:TUFHOME.php');
+    }
+
     $query = "SELECT * FROM branch";
-
     $res = mysqli_query($conn,$query);
 
 ?>
@@ -107,7 +109,7 @@
                             '<tr><td>'
                             +$("#ADDRESS").val()
                             +'</td><td>'
-                            +'<input id="edit" type="button" value="edit"/>'
+                            +'<button id="edit" value="edit" class="btn"><span class=" glyphicon glyphicon-pencil"></span></button>'
                             +'</td><td>'
                             +'<input  id="delete" type="button" value="delete" class="hidden"/>'
                             +'</td><td>'

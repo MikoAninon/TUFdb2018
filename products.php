@@ -1,11 +1,8 @@
 <?php
-   
-    require "index.php";
+    include"session.php";
 
-     include"session.php";
-
-    if(isset($_SESSION['admin'])){
-        $check = $_SESSION['admin'];
+    if(!isset($_SESSION['admin'])){
+        header('location:TUFHOME.php');
     }
 ?>
 <html>
@@ -13,7 +10,7 @@
         <title>
             Products 
         </title>
-        <link rel='stylesheet' href='css/bootstrap.css'>
+        <link rel='stylesheet' href='bootstrap-3.3.7-dist/bootstrap-3.3.7-dist/css/bootstrap.css'>
         <script src='jquery-3.2.1.min.js'></script>
         <script src="bootstrap.js"></script>
     </head>
@@ -29,7 +26,9 @@
             margin-top:10px;
             height:50px;
         }
-    
+        #productTable{
+            margin-top: 15px;
+        }
     </style>
     <body>
         <div class='container-fluid'>
@@ -42,11 +41,11 @@
                 <div class='col-md-10'>
                     <strong><h3> Products </h3></strong> 
                     <button id='insert' class='btn btn-success' data-toggle="modal" data-target="#myModal">
-                        <span class='glyhpicon glyphicon-pencil'>Add new product</span>
+                        Add new Product<span class='glyhpicon glyphicon-plus'></span>
                     </button>
-                    <button id='deleteAll' class='btn btn-danger'>
+                <!--    <button id='deleteAll' class='btn btn-danger'>
                         <span> Delete All Products </span>
-                    </button>
+                    </button> -->
                     
                     <div id="myModal" class="modal fade" role="dialog">
                         <div class='modal-dialog'>
@@ -60,10 +59,10 @@
                                         NAME: <input type="text" id="NAME" name="NAME"  class='form-control' required>
                                         PRICE: <input type="text"  id= "PRICE"name="PRICE" class='form-control'required>
                                         PRODUCT TYPE:<select id='Type' class='form-control'>
-                                            <option value='apparel'>apparel</option>
-                                            <option value='shoes'>shoes</option>
-                                            <option value='hairproducts'>hairproducts</option>
-                                        </select>
+                                                        <option value='apparel'>apparel</option>
+                                                        <option value='shoes'>shoes</option>
+                                                        <option value='hairproducts'>hairproducts</option>
+                                                    </select>
                                         <input type="submit"  id="btn_submit" name="submit" value="Add" class='btn btn-success'>
                                     
                                 </div>
@@ -74,17 +73,26 @@
                         </div>
                     </div>
                     
-                    <table class='table table-hover'>
+                    <table class='table table-hover' id='productTable'>
                         <tbody id='output'>
                             <tr>
-                                <th>
-                                    <strong> Price </strong> 
-                                </th>
                                 <th>
                                     <strong> Name </strong> 
                                 </th>
                                 <th>
+                                    <strong> Quantity </strong> 
+                                </th>
+                                <th>
+                                    <strong> Price </strong> 
+                                </th>
+                                <th>
                                     <strong> Edit </strong> 
+                                </th>
+                                <th>
+                                    <strong> Delete </strong> 
+                                </th>
+                                <th id='subSpace'>
+                                    <strong class='hidden'> Submit </strong> 
                                 </th>
                             </tr>
                         </tbody>
@@ -100,34 +108,34 @@
         productList(); 
         
         
-        $.ajax({
-            type:'POST',
-            data: {ask : 'getData'},
-            url: 'insertIntoProducts.php',
-            success:function(data){
-                
-            }
-        });
-        $("#btn_submit").click(function(){
-            if($('#NAME').val()!='' ){
-                $.ajax({
-                    type:'POST',
-                    data: {name:$('#NAME').val(), price:$('#PRICE').val(), type:$('#Type option:selected').text()},
-                    dataType: "JSON",
-                    url:'insertIntoProducts.php',
-                    success:function(data){
-                        alert("Succesfully added product");
-                        var id = data;
-                        $('#myModal').modal('hide');
-                        $('#output').append("<tr><td>"+$('#PRICE').val()+"</td><td>"+$('#NAME').val()+"</td><td class='hidden'>"+id+"</td><td><input id='edit' type='button' value='edit'></td><td><input type='button' id='delete' class='hidden'></td><td><input type='button' id='submit' class='hidden'></td></tr>");
-                        $('#NAME').val('');
-                        $('#PRICE').val('');
-                    }
-                });
-            
-                
-            }
-        });
+//        $.ajax({
+//            type:'POST',
+//            data: {ask : 'getData'},
+//            url: 'insertIntoProducts.php',
+//            success:function(data){
+//                
+//            }
+//        });
+//        $("#btn_submit").click(function(){
+//            if($('#NAME').val()!='' ){
+//                $.ajax({
+//                    type:'POST',
+//                    data: {name:$('#NAME').val(), price:$('#PRICE').val(), type:$('#Type option:selected').text()},
+//                    dataType: "JSON",
+//                    url:'insertIntoProducts.php',
+//                    success:function(data){
+//                        alert("Succesfully added product");
+//                        var id = data;
+//                        $('#myModal').modal('hide');
+//                        $('#output').append("<tr><td>"+$('#PRICE').val()+"</td><td>"+$('#NAME').val()+"</td><td class='hidden'>"+id+"</td><td><input id='edit' type='button' value='edit'></td><td><input type='button' id='delete' class='hidden'></td><td><input type='button' id='submit' class='hidden'></td></tr>");
+//                        $('#NAME').val('');
+//                        $('#PRICE').val('');
+//                    }
+//                });
+//            
+//                
+//            }
+//        });
     }); 
 </script>
 
@@ -152,17 +160,19 @@
                         names[ctr] = data[ctr].productName;
                         tr +=
                             '<tr><td>'
-                            +data[ctr].ProductPrice
-                            +'</td><td>'
                             +data[ctr].productName
+                            +'</td><td>'
+                            +data[ctr].Quantity
+                            +'</td><td>'
+                            +data[ctr].ProductPrice
                             +'</td><td hidden>'
                             +data[ctr].prodID
                             +'</td><td>'
-                            +'<input  id="edit" type="button" value="edit"/>'
+                            +'<button id="edit" class="btn"><span class="glyphicon glyphicon-pencil"></span></button>'
                             +'</td><td>'
-                            +'<input  id="delete" type="button" value="delete" class="hidden"/>'
+                            +'<button id="delete" class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span></button>'
                             +'</td><td>'
-                            +'<input  id="submit" type="button" value="submit" class="hidden"/>'
+                            +'<button id="submit" class="btn btn-success hidden"><span class="glyphicon glyphicon-check"></span></button>'
                             +'</td></tr>';
                     }
                     $('#output').append(tr);
@@ -172,79 +182,111 @@
             });
     }   
     
-    $('#deleteAll').click(function()
-    {
-            
-            $(event.target).nextAll().fadeOut('slow');
-            $.ajax({
-                type:'POST',
-                data:{reqAll : 'delAll'},
-                url:'deleteProduct.php',
-                success: function(data){}
-            });
-         
-    });
+//    $('#deleteAll').click(function()
+//    {
+//            
+//            $(event.target).nextAll().fadeOut('slow');
+//            $.ajax({
+//                type:'POST',
+//                data:{reqAll : 'delAll'},
+//                url:'deleteProduct.php',
+//                success: function(data){}
+//            });
+//         
+//    });
     
     $('#output').on('click', '#delete', function(){
-            var id = $(event.target).parent().prev().prev().text();    
-            $(event.target).parent().parent().fadeOut('slow');
-            $.ajax({
-                type:'POST',
-                data:{id : id},
-                url:'deleteProduct.php',
-                success: function(data){}
-            });
+            var id = $(this).parent().prev().prev();    
+            var iVal = $(id).text();
+        
+            var quantity = $(id).prev().prev();
+            var qVal = $(quantity).text();
+            
+            console.log(qVal);
+        
+            if(qVal!=0){
+                alert("Items with available stocks cannot be deleted.");
+            } else {
+                $(this).parent().parent().fadeOut('slow');
+                $.ajax({
+                    type:'POST',
+                    data:{id : iVal},
+                    url:'manageProducts.php',
+                    success: function(data){
+                        alert(data);
+                    }
+                });
+            }
+        
     });
     
     
     
     $('#output').on('click', '#edit', function(){
-            var prodName = $(this).parent().prev().prev();
-            var nameCol = $(prodName).text();
-
-            $(prodName).html("<input type='text' value='"+nameCol+"'>");
-            
-            var prodPrice = $(this).parent().prev().prev().prev();
-            var priceCol = $(prodPrice).text();
-            $(prodPrice).html("<input type='text' value='"+priceCol+"'>");
+            var id = $(this).parent().prev();
+            var idVal = $(id).text();
         
-            var del = $(this).parent().next();
-            $(del).html('<input  id="delete" type="button" value="delete" />');
+            var price = $(id).prev();
+            var pVal = $(price).text();
+        
+            $(price).html("<input type='text' value='"+pVal+"'>");
+        
+            var quantity = $(price).prev();
+            var qVal = $(quantity).text();
             
+            $(quantity).html("<input type='text' value='"+qVal+"'>");
+        
+            var name = $(quantity).prev();
+            var nVal = $(name).text();
+                
+            $(name).html("<input type='text' value='"+nVal+"'>");
+        
             var submit = $(this).parent().next().next();
-            $(submit).html('<input  id="submit" type="button" value="submit"/>');
-            
+            $(submit).children().removeClass('hidden');
+                
+            $('#subSpace').children().removeClass('hidden');
     });
     
     $('#output').on('click', '#submit', function(){
-            var sub = $(this).parent();
-            var del = $(this).parent().prev();
-        
-            var name = $(this).parent().prev().prev().prev().prev();
-            var nVal = $(name).children().val();
-        
-            var price= $(this).parent().prev().prev().prev().prev().prev();
-            var pVal = $(price).children().val();
-        
+            
+            var submit = $(this).parent();
+            
             var id = $(this).parent().prev().prev().prev();
             var iVal = $(id).text();
-
-            $.ajax({
-                type:'POST',
-                url:'editProducts.php',
-                data: {
-                    n : nVal,
-                    p : pVal,
-                    i : iVal
-                },
-                success:function(data){
-                    alert(data);
-                    name.html("<td>"+nVal+"</td>");
-                    price.html("<td>"+pVal+"</td>");
-                    sub.html('<ionput  id="submit" type="button" value="submit" class="hidden"/>');
-                    del.html('<input  id="delete" type="button" value="delete" class="hidden"/>');
-                }
-            });
+        
+            var price = $(id).prev();
+            var pVal = $(price).children().val();
+        
+            var quantity = $(price).prev();
+            var qVal = $(quantity).children().val();
+        
+            var name = $(quantity).prev();
+            var nVal = $(name).children().val();
+            
+            if(!isNaN(pVal) && !isNaN(qVal)){
+                $.ajax({
+                    type:'POST',
+                    url:'manageProducts.php',
+                    data: {
+                        n : nVal,
+                        p : pVal,
+                        i : iVal,
+                        q : qVal
+                    },
+                    success:function(data){
+                        alert(data);
+                        $(name).html("<td>"+nVal+"</td>");
+                        $(quantity).html("<td>"+qVal+"</td>");
+                        $(price).html("<td>"+pVal+"</td>");
+                        $(submit).children().addClass('hidden');
+                        $('#subSpace').children().addClass('hidden');
+                    }
+                });
+            } else {
+                var firstMessage = (isNaN(pVal))? "invalid price input" : "invalid quality input";
+                var alertMessage = (isNaN(pVal) && isNaN(qVal))? "Invalid price and quantity input" : firstMessage;
+                alert(alertMessage);
+            }
     });
 </script>
 

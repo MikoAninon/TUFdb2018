@@ -17,6 +17,7 @@
         if(mysqli_num_rows($res)==1){
             
             while($arr = mysqli_fetch_assoc($res)){
+                $link ='TUFHOME.php';
                 $_SESSION['fName'] = $arr['fName'];
                 $_SESSION['MI'] = $arr['mInitial'];
                 $_SESSION['lName'] = $arr['lName'];
@@ -26,10 +27,10 @@
                 $email = $_SESSION['email'];
                 if ($email == 'Admin@tuf.com'){
                     $_SESSION['admin'] = 'on';
-                    header('Location:products.php');
+                    $link='managementPage.php';
                 }
             }
-            header('Location:newbooking.php');
+            header('Location:'.$link);
         }else{
             echo "<script type='text/javascript'>alert('Invalid email or password');</script>";
             header('refresh:0;url=login.php'); //TO redirect if login in fails   

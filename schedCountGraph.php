@@ -6,7 +6,7 @@
         
         $query = "
                     SELECT date as day,COUNT(*) as count FROM schedule GROUP BY DAY(date)
-                    ";
+                    ORDER BY day ASC";
         
         $graphData = mysqli_query($conn,$query);
         

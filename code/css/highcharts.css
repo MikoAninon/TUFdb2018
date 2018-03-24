@@ -144,7 +144,7 @@
 }
 
 .highcharts-selection-marker {
-  fill: #335cad;
+  fill: 'red';
   fill-opacity: 0.25;
 }
 

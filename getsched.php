@@ -4,13 +4,13 @@
    
    if(isset($_POST['sc'])){
        $name = mysqli_real_escape_string($conn,$_POST['sc']);
+       $getdate = mysqli_real_escape_string($conn,$_POST['bd']);
        $arr = array();
        $i=0;
-       //must add timeend to this
-       $query = "SELECT timestart,timeend FROM schedule
+       $query = "SELECT TIME_FORMAT(timestart, '%r') as timestart,TIME_FORMAT(timeend, '%r') as timeend,date FROM schedule
                 JOIN employee
                 ON schedule.employeeid=employee.employeeID
-                WHERE employee.fName='".$name."' AND DAY(date)=DAY(now())";
+                WHERE employee.fName='".$name."' ";
        
         $res = mysqli_query($conn,$query);
             
@@ -18,10 +18,10 @@
             
             $arr[$i]=$data['timestart'];
             $arr[$i+1]=$data['timeend'];
+            $arr[$i+2]=$data['date'];
             
-            $i=$i+2;
-            
-            //echo json_encode($data['fname']);
+            $i=$i+3;
+
         }
         echo json_encode($arr);
        
