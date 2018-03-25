@@ -47,7 +47,7 @@
                 <div class='col-md-10'>
                     <strong><h3> Employees </h3></strong> 
                     <button id='insert' class='btn btn-success' data-toggle="modal" data-target="#myModal">
-                        Insert <span class='glyhpicon glyphicon-pencil'></span>
+                        Add new employee <span class='glyhpicon glyphicon-plus'></span>
                     </button>
                     
                     
@@ -115,7 +115,10 @@
                                     <strong> Branch </strong> 
                                 </th>
                                 <th>
-                                    <strong> Branch </strong> 
+                                    <strong> Edit </strong> 
+                                </th>
+                                <th>
+                                    <strong> Delete </strong> 
                                 </th>
                             </tr>
                         </tbody>
@@ -169,12 +172,13 @@
                             +'</td><td hidden>'
                             +$("#branch option:selected").val();
                             +'</td><td>'
-                            +'<button  id="edit" class="btn"><span class="glyphicon glyphicon-pencil"></span></button>'
+                            +'<button id="edit" class="btn"><span class="glyphicon glyphicon-pencil"></span></button>'
                             +'</td><td>'
-                            +'<input  id="delete" type="button" value="delete" class="hidden"/>'
+                            +'<button id="delete" class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span></button>'
                             +'</td><td>'
-                            +'<input  id="submit" type="button" value="submit" class="hidden"/>'
+                            +'<button id="submit" class="btn btn-success hidden"><span class="glyphicon glyphicon-check"></span></button>'
                             +'</td></tr>';
+
                         $('#output').append(tt);
                         $("#FNAME").val('');
                         $("#MI").val('');
@@ -229,12 +233,13 @@
                             +'</td><td hidden>'
                             +data[ctr].employeeID
                             +'</td><td>'
-                            +'<button id="edit" class="btn" value="edit"><span class="glyphicon glyphicon-pencil"></span></button>'
+                            +'<button id="edit" class="btn"><span class="glyphicon glyphicon-pencil"></span></button>'
                             +'</td><td>'
-                            +'<input  id="delete" type="button" value="delete" class="hidden"/>'
+                            +'<button id="delete" class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span></button>'
                             +'</td><td>'
-                            +'<input  id="submit" type="button" value="submit" class="hidden"/>'
+                            +'<button id="submit" class="btn btn-success hidden"><span class="glyphicon glyphicon-check"></span></button>'
                             +'</td></tr>';
+
                     }
                     $('#output').append(tr);
                     console.log(tr);
@@ -290,10 +295,10 @@
             $(fName).html("<input type='text' value='"+fT+"'>");
       
             var del = $(this).parent().next();
-            $(del).html('<input  id="delete" type="button" value="delete" />');
+            $(del).children().removeClass('hidden');
           
             var submit = $(this).parent().next().next();
-            $(submit).html('<input  id="submit" type="button" value="submit"/>');
+            $(submit).children().removeClass('hidden');
             
     });
     
@@ -346,8 +351,8 @@
                     emptype.html("<td>"+typeval+"</td>");
                     branch.html("<td>"+branchval+"</td>");
                     
-                    sub.html('<input  id="submit" type="button" value="submit" class="hidden"/>');
-                    del.html('<input  id="delete" type="button" value="delete" class="hidden"/>');
+                    sub.children().addClass('hidden');
+                    
                 }
                 
             });

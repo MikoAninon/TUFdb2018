@@ -166,7 +166,7 @@
                            
                         $('#selectdate').html(datesel);
                         
-                         $('#bookCon').on('change','#bookdate',function(){
+                         $('#bookdate').on('change',function(){
                              var selecteddate = $('#bookdate').val();
 
                             $.ajax({
@@ -176,16 +176,15 @@
                              dataType : 'JSON',
                              success:function(sched){
                                  var schedule = '<div class="barberstrong"><strong>'+bname+'`s '+ 'schedules for the selected date:</strong></div>';
-                                 var tablestart = "<table class='table'><thead><tr><th>Time start</th><th>Time end</th><th>Date</th></tr></thead><tbody>";
+                                 var tablestart = "<table class='table'><thead><tr><th>Time start</th><th>Time end</th></tr></thead><tbody>";
                                  var schedulearr=new Array();
                                  var timestartrow='';
                                  schedulearr = sched;
                                  
                                  console.log('sched'+schedulearr);
-                                 for(var x=0;x<schedulearr.length;x+=3){
-                                     timestartrow+='<tr><td>'+schedulearr[x]+'</td><td>'+schedulearr[x+1]+'</td><td>'+schedulearr[x+2]+'</td></tr>';
+                                 for(var x=0;x<schedulearr.length;x+=2){
+                                     timestartrow+='<tr><td>'+schedulearr[x]+'</td><td>'+schedulearr[x+1]+'</td></tr>';
                                  }
-                                 console.log(schedulearr);
                                  schedule+=tablestart;
                                  schedule+=timestartrow;
                                  $('#barberschedule').html(schedule);
@@ -199,7 +198,7 @@
                                     $('#inputsched').html(schedml);   
                                     $('#book').on('click',function(){ 
                                     var gettime = $('#time').val();  
-                                    var validchecker="Invalid schedule!";    
+                                     
                                         $.ajax({
                                             type : 'POST',
                                             url : 'schedcheck.php',

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 24, 2018 at 06:13 AM
+-- Generation Time: Mar 25, 2018 at 09:07 AM
 -- Server version: 10.1.26-MariaDB
 -- PHP Version: 7.1.8
 
@@ -41,8 +41,7 @@ INSERT INTO `branch` (`branchID`, `address`) VALUES
 (1, 'Talamban'),
 (2, 'Capitol Escario'),
 (3, 'Mabolo'),
-(4, 'Ayala'),
-(9, 'Escario');
+(4, 'Ayala');
 
 -- --------------------------------------------------------
 
@@ -129,7 +128,13 @@ INSERT INTO `product` (`prodID`, `productName`, `productType`, `ProductPrice`, `
 (35, 'Anti Social Social Club Hoodie', 'apparel', 7500, 25),
 (37, 'TUF shampoo', 'hairProducts', 300, 25),
 (38, 'Underarmour curry 4', 'shoes', 9800, 25),
-(39, 'TUF hoodie', 'apparel', 500, 25);
+(39, 'TUF hoodie', 'apparel', 500, 25),
+(40, 'Adidas Trackpants', 'apparel', 3000, 25),
+(41, 'Nike ACG Hoodie', 'apparel', 5000, 25),
+(42, 'Nike Flyknit Oreo', 'shoes', 10000, 25),
+(43, 'Nike ACG ', 'apparel', 10000, 25),
+(47, 'Nike Flyknit ', 'shoes', 5000, 25),
+(48, 'Original By Blumaan', 'hairProducts', 900, 25);
 
 -- --------------------------------------------------------
 
@@ -165,7 +170,8 @@ INSERT INTO `schedule` (`scheduleid`, `employeeid`, `date`, `timestart`, `timeen
 (130, 3, '2019-01-01', '17:00:00', '18:00:00', 50, 9),
 (131, 29, '2020-01-01', '13:00:00', '14:00:00', 50, 2),
 (132, 26, '2018-04-01', '13:00:00', '14:00:00', 50, 3),
-(133, 3, '2019-01-01', '18:00:00', '19:00:00', 50, 1);
+(133, 3, '2019-01-01', '18:00:00', '19:00:00', 50, 1),
+(134, 5, '2018-04-06', '13:59:00', '14:59:00', 50, 2);
 
 -- --------------------------------------------------------
 
@@ -187,11 +193,7 @@ CREATE TABLE `service` (
 INSERT INTO `service` (`serviceID`, `serviceName`, `serviceType`, `ServicePrice`) VALUES
 (1, 'TUF Father and Son', 'Haircut', 400),
 (2, 'TUF chair massage', 'Massage', 300),
-(3, 'TUF regular shave', 'Shave', 250),
-(4, 'TUF hairdye short', 'Hair treatment', 800),
-(5, 'TUF hairdye medium', 'Hair treatment', 1200),
 (6, 'TUF hairdye long', 'Hair treatment', 1500),
-(7, 'TUF Full Beard Shave', 'Shave', 350),
 (8, 'TUF Recovery', 'Haircut', 600),
 (9, 'TUF Junior Plus', 'Haircut', 350),
 (10, 'TUF Junior', 'Haircut', 200),
@@ -227,12 +229,6 @@ INSERT INTO `servicerecord` (`ServRecID`, `serviceID`) VALUES
 (4, 2),
 (5, 2),
 (20, 2),
-(3, 3),
-(7, 3),
-(19, 3),
-(6, 4),
-(10, 4),
-(9, 5),
 (8, 6),
 (15, 10),
 (16, 11),
@@ -340,12 +336,12 @@ ALTER TABLE `employee`
 -- AUTO_INCREMENT for table `product`
 --
 ALTER TABLE `product`
-  MODIFY `prodID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
+  MODIFY `prodID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
 --
 -- AUTO_INCREMENT for table `schedule`
 --
 ALTER TABLE `schedule`
-  MODIFY `scheduleid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=134;
+  MODIFY `scheduleid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=135;
 --
 -- AUTO_INCREMENT for table `service`
 --
@@ -382,13 +378,13 @@ ALTER TABLE `schedule`
 -- Constraints for table `servicerecord`
 --
 ALTER TABLE `servicerecord`
-  ADD CONSTRAINT `fk_record_service` FOREIGN KEY (`serviceID`) REFERENCES `service` (`serviceID`);
+  ADD CONSTRAINT `fk_record_service` FOREIGN KEY (`serviceID`) REFERENCES `service` (`serviceID`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `servicetransaction`
 --
 ALTER TABLE `servicetransaction`
-  ADD CONSTRAINT `fk_servTrans_servRec` FOREIGN KEY (`servRecID`) REFERENCES `servicerecord` (`ServRecID`),
+  ADD CONSTRAINT `fk_servTrans_servRec` FOREIGN KEY (`servRecID`) REFERENCES `servicerecord` (`ServRecID`) ON DELETE NO ACTION,
   ADD CONSTRAINT `fk_servicetransaction_customer` FOREIGN KEY (`customerID`) REFERENCES `customer` (`CustomerID`) ON DELETE CASCADE,
   ADD CONSTRAINT `fk_servicetransaction_employee` FOREIGN KEY (`employeeID`) REFERENCES `employee` (`employeeID`) ON DELETE CASCADE;
 COMMIT;

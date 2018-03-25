@@ -11,7 +11,7 @@
         <title>
             Services 
         </title>
-        <link rel='stylesheet' href='css/bootstrap.css'>
+        <link rel='stylesheet' href='bootstrap-3.3.7-dist/bootstrap-3.3.7-dist/css/bootstrap.css'>
         <script src='jquery-3.2.1.min.js'></script>
         <script src="bootstrap.js"></script>
     </head>
@@ -94,6 +94,9 @@
                                 <th>
                                     <strong> Edit </strong> 
                                 </th>
+                                <th>
+                                    <strong> Delete </strong> 
+                                </th>
                             </tr>
                         </tbody>
                     </table>
@@ -136,12 +139,12 @@
                             +'</td><td hidden>'
                             +data[ctr].serviceID
                             +'</td><td>'
-                            +'<input  id="edit" type="button" value="edit"/>'
+                            +'<button id="edit" class="btn"><span class="glyphicon glyphicon-pencil"></span></button>'
                             +'</td><td>'
-                            +'<input  id="delete" type="button" value="delete" class="hidden"/>'
+                            +'<button id="delete" class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span></button>'
                             +'</td><td>'
-                            +'<input  id="submit" type="button" value="submit" class="hidden"/>'
-                            +'</td></tr>';
+                            +'<button id="submit" class="btn btn-success hidden"><span class="glyphicon glyphicon-check"></span></button>'
+                            +'</td></tr>'
                     }
                     $('#output').append(tr);
                     
@@ -154,15 +157,18 @@
             var id = $(this).parent().prev().prev();
             var idVal = $(id).text();
 
+            console.log(idVal);    
         
-            $(event.target).parent().prev().prev().text();    
+            //$(event.target).parent().prev().prev().text();    
             $(event.target).parent().parent().fadeOut('slow');
             
             $.ajax({
                 type:'POST',
                 data:{id : idVal},
                 url:'manageServices.php',
-                success: function(){}
+                success: function(data){
+                    alert(data);
+                }
             });
     
     });
@@ -184,10 +190,10 @@
         $(name).html("<input value='"+nVal+"'></input>");
         
         var del = $(this).parent().next();
-        $(del).html('<input id="delete" type="button" value="delete"></input>');
         
-        var sub = $(this).parent().next().next();
-        $(sub).html('<input id="submit" type="button" value="submit"></input>');
+        var sub = $(del).next();
+        
+        $(sub).children().removeClass('hidden');    
     });
 
     $('#output').on('click','#submit', function(){
@@ -206,23 +212,27 @@
         var name  = $(id).prev().prev().prev();
         var nVal  = $(name).children().val();
         
-        $.ajax({
-            type:'POST',
-            url:'manageServices.php',
-            data: {
-                n : nVal,
-                p : pVal,
-                t : typeVal,
-                i : idVal
-            },
-            success:function(){
-                $(name).html('<td>'+nVal+'</td>');
-                $(type).html('<td>'+typeVal+'</td>');
-                $(price).html('<td>'+pVal+'</td>');
-                $(sub).html('<td><input  id="submit" type="button" value="submit" class="hidden"/></td>');
-                $(del).html('<td><input  id="delete" type="button" value="delete" class="hidden"/></td>');
-            }
-        });  
+        if (!isNaN(pVal)){
+            $.ajax({
+                type:'POST',
+                url:'manageServices.php',
+                data: {
+                    n : nVal,
+                    p : pVal,
+                    t : typeVal,
+                    i : idVal
+                },
+                success:function(){
+                    alert ('Changes saved!');
+                    $(name).html('<td>'+nVal+'</td>');
+                    $(type).html('<td>'+typeVal+'</td>');
+                    $(price).html('<td>'+pVal+'</td>');
+                    $(sub).children().addClass('hidden');
+                }
+            });
+        } else {
+            alert ('Invalid price input');
+        }
     });
     
      $("#btn_submit").click(function(){
@@ -233,7 +243,7 @@
                 dataType: "JSON",
                 url:'manageServices.php',
                 success:function(data){
-                    alert("Succesfully added product");
+                    alert("Succesfully added service");
                     var id = data;
                     $('#myModal').modal('hide');
                     var sr = '<tr><td>'

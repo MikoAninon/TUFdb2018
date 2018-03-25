@@ -7,10 +7,10 @@
        $getdate = mysqli_real_escape_string($conn,$_POST['bd']);
        $arr = array();
        $i=0;
-       $query = "SELECT TIME_FORMAT(timestart, '%r') as timestart,TIME_FORMAT(timeend, '%r') as timeend,date FROM schedule
+       $query = "SELECT TIME_FORMAT(timestart, '%r') as timestart,TIME_FORMAT(timeend, '%r') as timeend FROM schedule
                 JOIN employee
                 ON schedule.employeeid=employee.employeeID
-                WHERE employee.fName='".$name."' ";
+                WHERE employee.fName='".$name."' AND date='".$getdate."'";
        
         $res = mysqli_query($conn,$query);
             
@@ -18,9 +18,8 @@
             
             $arr[$i]=$data['timestart'];
             $arr[$i+1]=$data['timeend'];
-            $arr[$i+2]=$data['date'];
             
-            $i=$i+3;
+            $i=$i+2;
 
         }
         echo json_encode($arr);

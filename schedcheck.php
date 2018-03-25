@@ -8,8 +8,8 @@
        $customerid = mysqli_real_escape_string($conn,$_POST['sh']);
        $getdate = mysqli_real_escape_string($conn,$_POST['bd']);
       
-       $check1 = "7:00:00 PM";//closing
-       $check2 = "10:00:00 AM";//opening
+       $check1 = "7:00:00 PM";//hour before closing
+       $check2 = "11:00:00 AM";// opening
        $time2 = "01:00:00";//hour added
        $strtime = strtotime($time);
        $strtotime1=strtotime($check1);
@@ -26,8 +26,7 @@
        }
        
        $today = date("Y-m-d");
-    
-       
+ 
        if($getdate>=$today){
            if($strtime>=$strtotime2 && $strtime<=$strtotime1){
                $name = mysqli_real_escape_string($conn,$_POST['bn']);
@@ -62,9 +61,10 @@
         }else{
               $result="Invalid schedule!";
               echo $result;
+               
            }
        }else{
-           echo "Invalid date!";
+           echo "Invalid time/date!";
        }
        
    }

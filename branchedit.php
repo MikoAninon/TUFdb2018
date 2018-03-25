@@ -14,7 +14,7 @@
         <title>
             Branchedit 
         </title>
-        <link rel='stylesheet' href='css/bootstrap.css'>
+        <link rel='stylesheet' href='bootstrap-3.3.7-dist/bootstrap-3.3.7-dist/css/bootstrap.css'>
         <script src='jquery-3.2.1.min.js'></script>
         <script src="bootstrap.js"></script>
     </head>
@@ -43,12 +43,12 @@
                 <div class='col-md-10'>
                     <strong><h3> Branches </h3></strong> 
                     <button id='insert' class='btn btn-success' data-toggle="modal" data-target="#myModal">
-                        <span class='glyhpicon glyphicon-pencil'>Add new branch</span>
+                        Add new branch<span class='glyhpicon glyphicon-plus'></span>
                     </button>
                    <a href='bestbranch.php'><button class='btn btn-success'>
                        <span > View Best Branches</span>
                     </button>
-                    
+                    </a>
                     <div id="myModal" class="modal fade" role="dialog">
                         <div class='modal-dialog'>
                             <div class='modal-content'>
@@ -77,6 +77,9 @@
                                 </th>
                                 <th>
                                     <strong> Edit </strong> 
+                                </th>
+                                <th>
+                                    <strong> Delete </strong> 
                                 </th>
                             </tr>
                         </tbody>
@@ -147,8 +150,8 @@
             var del = $(this).parent().next();
             var sub = $(del).next();
             
-            $(del).html("<input value='delete' id='delete' type='button'/>");
-            $(sub).html("<input value='submit' id='submit' type='button'/>")
+            $(sub).children().removeClass('hidden');
+            
         });
         
         $('#output').on('click', '#submit', function(){
@@ -172,8 +175,8 @@
                 success:function(data){
                     alert(data);
                     address.html("<td>"+adval+"</td>"); 
-                    sub.html('<input  id="submit" type="button" value="submit" class="hidden"/>');
-                    del.html('<input  id="delete" type="button" value="delete" class="hidden"/>');
+                    $(sub).children().addClass('hidden');
+                    
                 }
                 
             });
@@ -196,12 +199,12 @@
                             +'<td hidden>'
                             +data[ctr].branchID
                             +'</td><td>'
-                            +'<input  id="edit" type="button" value="edit"/>'
+                            +'<button id="edit" class="btn"><span class="glyphicon glyphicon-pencil"></span></button>'
                             +'</td><td>'
-                            +'<input  id="delete" type="button" value="delete" class="hidden"/>'
+                            +'<button id="delete" class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span></button>'
                             +'</td><td>'
-                            +'<input  id="submit" type="button" value="submit" class="hidden"/>'
-                            +'</td></tr>';
+                            +'<button id="submit" class="btn btn-success hidden"><span class="glyphicon glyphicon-check"></span></button>'
+                            +'</td></tr>'
                     }
                     $('#output').append(tr);
                     console.log(tr);

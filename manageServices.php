@@ -35,6 +35,14 @@
         echo json_encode($rows);
     }
 
+    if (isset($_POST['id'])){
+        $id = mysqli_real_escape_string($conn,$_POST['id']);
+        $query = "DELETE FROM service WHERE serviceID=".$id;
+        mysqli_query ($conn,$query);
+        echo "successfully deleted service";
+    }
+
+
     if (isset($_POST['name'])){
         $Name   = mysqli_real_escape_string($conn,$_POST['name']);
         $Price  = mysqli_real_escape_string($conn,$_POST['price']);

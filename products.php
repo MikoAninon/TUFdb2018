@@ -57,6 +57,7 @@
                                 <div class='modal-body'>
                                     
                                         NAME: <input type="text" id="NAME" name="NAME"  class='form-control' required>
+                                        
                                         PRICE: <input type="text"  id= "PRICE"name="PRICE" class='form-control'required>
                                         PRODUCT TYPE:<select id='Type' class='form-control'>
                                                         <option value='apparel'>apparel</option>
@@ -107,35 +108,7 @@
     $(document).ready(function(){
         productList(); 
         
-        
-//        $.ajax({
-//            type:'POST',
-//            data: {ask : 'getData'},
-//            url: 'insertIntoProducts.php',
-//            success:function(data){
-//                
-//            }
-//        });
-//        $("#btn_submit").click(function(){
-//            if($('#NAME').val()!='' ){
-//                $.ajax({
-//                    type:'POST',
-//                    data: {name:$('#NAME').val(), price:$('#PRICE').val(), type:$('#Type option:selected').text()},
-//                    dataType: "JSON",
-//                    url:'insertIntoProducts.php',
-//                    success:function(data){
-//                        alert("Succesfully added product");
-//                        var id = data;
-//                        $('#myModal').modal('hide');
-//                        $('#output').append("<tr><td>"+$('#PRICE').val()+"</td><td>"+$('#NAME').val()+"</td><td class='hidden'>"+id+"</td><td><input id='edit' type='button' value='edit'></td><td><input type='button' id='delete' class='hidden'></td><td><input type='button' id='submit' class='hidden'></td></tr>");
-//                        $('#NAME').val('');
-//                        $('#PRICE').val('');
-//                    }
-//                });
-//            
-//                
-//            }
-//        });
+
     }); 
 </script>
 
@@ -263,7 +236,7 @@
             var name = $(quantity).prev();
             var nVal = $(name).children().val();
             
-            if(!isNaN(pVal) && !isNaN(qVal)){
+            if(!isNaN(pVal) && !isNaN(qVal) && pVal >= 0 && qVal >=0){
                 $.ajax({
                     type:'POST',
                     url:'manageProducts.php',
@@ -282,11 +255,59 @@
                         $('#subSpace').children().addClass('hidden');
                     }
                 });
+            } else if (isNaN(pVal) && isNaN(qVal)) {
+                var alertMessage = (isNaN(pVal))? "invalid price input" : "invalid quality input";
+                
+                alertMessage = (isNaN(pVal) && isNaN(qVal))? "Invalid price and quantity input" : firstMessage;
+                    
+                alert(alertMessage);
             } else {
-                var firstMessage = (isNaN(pVal))? "invalid price input" : "invalid quality input";
-                var alertMessage = (isNaN(pVal) && isNaN(qVal))? "Invalid price and quantity input" : firstMessage;
+                var alertMessage = (pVal < 0)? "Negative price input!" : "Negative Quantity Input";
+            
                 alert(alertMessage);
             }
     });
+    
+    $("#btn_submit").click(function(){
+            if($('#NAME').val()!='' ){
+                if(isNaN(parseInt($('#PRICE').val()))){
+                    alert('Invalid price input');
+                } else {
+                    $.ajax({
+                        type:'POST',
+                        data: {name:$('#NAME').val(), price:$('#PRICE').val(), type:$('#Type option:selected').text()},
+                        dataType: "JSON",
+                        url:'insertIntoProducts.php',
+                        success:function(data){
+                            alert("Succesfully added product");
+                            var id = data;
+                            $('#myModal').modal('hide');
+
+                            var tr = "<tr><td>"
+                                    +$('#NAME').val()
+                                    +"</td><td>"
+                                    +"25"
+                                    +"</td><td>"
+                                    +$('#PRICE').val()
+                                    +"</td><td class='hidden'>"
+                                    +id
+                                    +'</td><td>'
+                                    +'<button id="edit" class="btn"><span class="glyphicon glyphicon-pencil"></span></button>'
+                                    +'</td><td>'
+                                    +'<button id="delete" class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span></button>'
+                                    +'</td><td>'
+                                    +'<button id="submit" class="btn btn-success hidden"><span class="glyphicon glyphicon-check"></span></button>'
+                                    +'</td></tr>';
+
+                            $('#output').append(tr);
+
+                            $('#NAME').val('');
+                            $('#PRICE').val('');
+                        }
+                    });
+            }
+                
+            }
+    }); 
 </script>
 
