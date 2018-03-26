@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.7.4
+-- version 4.7.0
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 10, 2018 at 11:08 AM
+-- Generation Time: Mar 10, 2018 at 09:59 AM
 -- Server version: 10.1.26-MariaDB
--- PHP Version: 7.1.9
+-- PHP Version: 7.1.8
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -21,24 +21,6 @@ SET time_zone = "+00:00";
 --
 -- Database: `tufdb`
 --
-
--- --------------------------------------------------------
-
---
--- Table structure for table `branch`
---
-
-CREATE TABLE `branch` (
-  `branchID` int(11) NOT NULL,
-  `address` varchar(30) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `branch`
---
-
-INSERT INTO `branch` (`branchID`, `address`) VALUES
-(1, 'Talamban');
 
 -- --------------------------------------------------------
 
@@ -82,8 +64,73 @@ INSERT INTO `customer` (`CustomerID`, `email`, `password`, `fName`, `mInitial`, 
 (18, '', '', 'Joshua', 'B', 'Romero', 'Cebu City', '1989-12-21'),
 (19, '', '', 'Ethan', 'R', 'Rivera', 'Cebu City', '1983-09-13'),
 (20, '', '', 'Toby', 'C', 'Park', 'Mandaue City', '1997-12-23'),
-(47, 'ethanlyleuy@gmail.com', '6e7eb363b9b2c07bded9629c20ecbe1c', 'Ethan', 'R', 'Uy', '', '1998-01-05'),
-(48, 'miko@gmail.com', '098f6bcd4621d373cade4e832627b4f6', 'Miko', 'A', 'Aninon', '', '2018-03-06');
+(47, 'ethanlyleuy@gmail.com', '6e7eb363b9b2c07bded9629c20ecbe1c', 'Ethan', 'R', 'Uy', '', '1998-01-05');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `delivery`
+--
+
+CREATE TABLE `delivery` (
+  `deliveryID` int(11) NOT NULL,
+  `prodID` int(11) NOT NULL,
+  `supplierID` int(11) NOT NULL,
+  `date` date NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `delivery`
+--
+
+INSERT INTO `delivery` (`deliveryID`, `prodID`, `supplierID`, `date`) VALUES
+(1, 31, 1, '2017-04-03'),
+(2, 32, 1, '2017-04-03'),
+(3, 30, 2, '2017-10-01'),
+(4, 33, 2, '2017-10-03'),
+(5, 34, 3, '2017-06-05'),
+(6, 38, 3, '2017-05-20'),
+(7, 31, 1, '2017-02-02'),
+(8, 32, 1, '2017-04-20'),
+(9, 32, 1, '2017-07-26'),
+(10, 31, 1, '2017-06-12'),
+(11, 30, 2, '2017-06-12'),
+(12, 33, 2, '2017-10-02'),
+(13, 33, 2, '2017-10-01'),
+(14, 34, 3, '2017-09-12'),
+(15, 38, 3, '2017-09-10'),
+(16, 38, 3, '2017-08-24'),
+(17, 34, 3, '2017-08-22'),
+(18, 30, 2, '2017-08-01'),
+(19, 34, 3, '2017-09-12'),
+(20, 38, 3, '2017-07-04'),
+(21, 25, 4, '2017-04-18'),
+(22, 23, 4, '2017-01-24'),
+(23, 24, 4, '2017-01-10'),
+(24, 22, 4, '2017-06-23'),
+(25, 25, 4, '2017-05-23'),
+(26, 24, 4, '2017-09-18'),
+(27, 25, 4, '2017-10-01'),
+(28, 27, 6, '2017-06-12'),
+(29, 22, 4, '2017-07-11'),
+(30, 27, 6, '2017-06-20'),
+(31, 24, 4, '2017-06-19'),
+(32, 23, 4, '2017-03-06'),
+(33, 23, 4, '2017-10-01'),
+(34, 35, 15, '2017-09-18'),
+(35, 36, 15, '2017-07-10'),
+(36, 36, 15, '2017-07-17'),
+(37, 28, 1, '2017-07-07'),
+(38, 25, 4, '2017-08-07'),
+(39, 25, 4, '2017-08-14'),
+(40, 24, 4, '2017-08-08'),
+(41, 35, 15, '2017-10-01'),
+(42, 39, 11, '2017-10-03'),
+(43, 39, 11, '2017-06-28'),
+(44, 40, 11, '2017-06-12'),
+(45, 39, 11, '2017-06-21'),
+(46, 40, 11, '2017-07-20'),
+(47, 39, 11, '2017-08-02');
 
 -- --------------------------------------------------------
 
@@ -98,35 +145,72 @@ CREATE TABLE `employee` (
   `lName` varchar(50) NOT NULL,
   `Residence` varchar(200) NOT NULL,
   `Birthdate` date NOT NULL,
-  `Gender` enum('M','F') NOT NULL,
-  `employeetype` enum('Barber','Cashier','Salesperson') NOT NULL,
-  `branchID` int(11) NOT NULL
+  `Gender` enum('M','F') NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `employee`
 --
 
-INSERT INTO `employee` (`employeeID`, `fName`, `MInitial`, `lName`, `Residence`, `Birthdate`, `Gender`, `employeetype`, `branchID`) VALUES
-(2, 'Ethan', 'R', 'Uy', 'opao mandaue cebu', '1995-08-09', 'M', 'Barber', 0),
-(3, 'Barack', 'O', 'Omaba', '213 andres abellana,guadalupe, cebu city', '1993-06-07', 'M', 'Barber', 0),
-(4, 'Tiberius', 'G', 'Omapoy', 'andres abellana extention,guadalupe,cebu city', '1992-10-10', 'M', 'Barber', 0),
-(5, 'Andrew', 'G', 'Edioma', 'Tipolo road, balamban, cebu city', '1990-01-01', 'M', 'Barber', 0),
-(6, 'Nico', 'S', 'Barro', 'gullas road,balamban, cebu city', '1998-06-20', 'M', 'Barber', 0),
-(7, 'Tristan', 'O', 'Catane', '2134 extension,escario,cebu city', '1989-08-30', 'M', 'Barber', 0),
-(8, 'Michael', 'O', 'Cabusas', 'Venezuela road,Talamban,cebu city', '1998-12-12', 'M', 'Barber', 0),
-(9, 'Alyssa', 'M', 'Margison', 'Sunny hills,talamban,cebu city', '1991-10-02', 'F', 'Barber', 0),
-(10, 'Kara', 'S', 'Regudo', 'Maria Luisa,Banilad,Cecbu City', '1990-11-11', 'F', 'Barber', 0),
-(11, 'Ezra', 'Z', 'Ra', 'busay,lahug,cebu city', '1989-01-23', 'F', 'Barber', 0),
-(12, 'Joji', 'R', 'Shiotsuki', 'Pacific village,pajac,lapu-lapu city', '1996-02-09', 'M', 'Barber', 0),
-(13, 'Yehoo', 'H', 'Lee', 'sto.nino village,talamban,cebu city', '1990-10-20', 'M', 'Barber', 0),
-(14, 'Justin', 'M', 'Nigo', 'brgy.san jose, talamban, cebu city', '1991-08-08', 'M', 'Barber', 0),
-(15, 'Peter', 'L', 'Lim', 'nichols park,guadalupe,cebu city', '1976-08-22', 'M', 'Barber', 0),
-(16, 'Rodrigo', 'R', 'Obosen', 'Deca homes 1, lapu-lapu city', '1950-12-25', 'M', 'Barber', 0),
-(17, 'Emilio', 'J', 'Jacinto', 'brgy.san juan,balamban,cebu city', '1948-10-27', 'M', 'Barber', 0),
-(18, 'Andres', 'D', 'Bonifacio', 'nivel hills road,carcar city', '1999-11-02', 'M', 'Barber', 0),
-(19, 'Mia', 'A', 'Aninon', '2139, andres abellana ext. guadalupe,cebu city', '1991-01-01', 'F', 'Barber', 0),
-(20, 'Karlo', 'G', 'Jarina', '6th street guadalajara,guadalupe,cebu city', '1985-10-30', 'M', 'Barber', 0);
+INSERT INTO `employee` (`employeeID`, `fName`, `MInitial`, `lName`, `Residence`, `Birthdate`, `Gender`) VALUES
+(1, 'Bryl', 'K', 'Lim', '134 pulangbato talamban cebu city', '1995-10-04', 'M'),
+(2, 'Ethan', 'R', 'Uy', 'opao mandaue cebu', '1995-08-09', 'M'),
+(3, 'Barack', 'O', 'Omaba', '213 andres abellana,guadalupe, cebu city', '1993-06-07', 'M'),
+(4, 'Tiberius', 'G', 'Omapoy', 'andres abellana extention,guadalupe,cebu city', '1992-10-10', 'M'),
+(5, 'Andrew', 'G', 'Edioma', 'Tipolo road, balamban, cebu city', '1990-01-01', 'M'),
+(6, 'Nico', 'S', 'Barro', 'gullas road,balamban, cebu city', '1998-06-20', 'M'),
+(7, 'Tristan', 'O', 'Catane', '2134 extension,escario,cebu city', '1989-08-30', 'M'),
+(8, 'Michael', 'O', 'Cabusas', 'Venezuela road,Talamban,cebu city', '1998-12-12', 'M'),
+(9, 'Alyssa', 'M', 'Margison', 'Sunny hills,talamban,cebu city', '1991-10-02', 'F'),
+(10, 'Kara', 'S', 'Regudo', 'Maria Luisa,Banilad,Cecbu City', '1990-11-11', 'F'),
+(11, 'Ezra', 'Z', 'Ra', 'busay,lahug,cebu city', '1989-01-23', 'F'),
+(12, 'Joji', 'R', 'Shiotsuki', 'Pacific village,pajac,lapu-lapu city', '1996-02-09', 'M'),
+(13, 'Yehoo', 'H', 'Lee', 'sto.nino village,talamban,cebu city', '1990-10-20', 'M'),
+(14, 'Justin', 'M', 'Nigo', 'brgy.san jose, talamban, cebu city', '1991-08-08', 'M'),
+(15, 'Peter', 'L', 'Lim', 'nichols park,guadalupe,cebu city', '1976-08-22', 'M'),
+(16, 'Rodrigo', 'R', 'Obosen', 'Deca homes 1, lapu-lapu city', '1950-12-25', 'M'),
+(17, 'Emilio', 'J', 'Jacinto', 'brgy.san juan,balamban,cebu city', '1948-10-27', 'M'),
+(18, 'Andres', 'D', 'Bonifacio', 'nivel hills road,carcar city', '1999-11-02', 'M'),
+(19, 'Mia', 'A', 'Aninon', '2139, andres abellana ext. guadalupe,cebu city', '1991-01-01', 'F'),
+(20, 'Karlo', 'G', 'Jarina', '6th street guadalajara,guadalupe,cebu city', '1985-10-30', 'M');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `employeetype`
+--
+
+CREATE TABLE `employeetype` (
+  `typeID` int(11) NOT NULL,
+  `employeeID` int(11) NOT NULL,
+  `employeeType` enum('Barber','Cashier','SalesPerson','') NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `employeetype`
+--
+
+INSERT INTO `employeetype` (`typeID`, `employeeID`, `employeeType`) VALUES
+(1, 1, 'Barber'),
+(2, 2, 'Cashier'),
+(3, 3, 'Barber'),
+(4, 4, 'Barber'),
+(5, 5, 'SalesPerson'),
+(6, 6, 'Cashier'),
+(7, 7, 'Barber'),
+(8, 8, 'Cashier'),
+(9, 9, 'Barber'),
+(10, 10, 'Barber'),
+(11, 11, 'Barber'),
+(12, 12, 'Cashier'),
+(13, 13, 'SalesPerson'),
+(14, 14, 'Barber'),
+(15, 15, 'Barber'),
+(16, 16, 'Cashier'),
+(17, 17, 'SalesPerson'),
+(18, 18, 'Barber'),
+(19, 19, 'Barber'),
+(20, 20, 'Cashier');
 
 -- --------------------------------------------------------
 
@@ -303,6 +387,7 @@ CREATE TABLE `servicetransaction` (
 --
 
 INSERT INTO `servicetransaction` (`servTransID`, `date`, `total`, `serveRecID`, `employeeID`, `customerID`, `servRecID`) VALUES
+(1, '2017-10-12', 455, 1, 1, 1, 1),
 (2, '2017-09-04', 300, 2, 2, 2, 2),
 (3, '2017-10-05', 500, 3, 3, 3, 3),
 (4, '2017-10-12', 761, 4, 4, 4, 4),
@@ -322,6 +407,7 @@ INSERT INTO `servicetransaction` (`servTransID`, `date`, `total`, `serveRecID`, 
 (18, '2017-06-21', 568, 18, 18, 18, 18),
 (19, '2017-07-05', 807, 19, 19, 19, 19),
 (20, '2017-07-14', 2302, 20, 20, 20, 20),
+(21, '2017-06-08', 455, 1, 1, 1, 1),
 (22, '2017-05-09', 301, 2, 2, 2, 2),
 (23, '2017-06-07', 343, 3, 3, 3, 3),
 (24, '2017-08-23', 577, 4, 4, 4, 4),
@@ -341,6 +427,43 @@ INSERT INTO `servicetransaction` (`servTransID`, `date`, `total`, `serveRecID`, 
 (38, '2017-10-03', 533, 18, 18, 18, 18),
 (39, '2017-08-17', 237, 19, 19, 19, 19),
 (40, '2017-10-12', 2332, 20, 20, 20, 20);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `supplier`
+--
+
+CREATE TABLE `supplier` (
+  `supplierID` int(11) NOT NULL,
+  `companyName` varchar(50) NOT NULL,
+  `Location` varchar(200) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `supplier`
+--
+
+INSERT INTO `supplier` (`supplierID`, `companyName`, `Location`) VALUES
+(1, 'Adidas', 'Taguig, Metro Manila'),
+(2, 'Nike', 'Taguig, Metro Manila'),
+(3, 'Under Armour', 'Taguig, Metro Manila'),
+(4, 'Eight Wolves', 'Taguig, Metro Manila'),
+(5, 'Blumaan', 'Taguig, Metro Manila'),
+(6, 'Suavecito', 'Makati City'),
+(7, 'Cavalier', 'Taguig, Metro Manila'),
+(8, 'Hanz de Fuko', 'Quezon City'),
+(9, 'CREW', 'Taguig, Metro Manila'),
+(10, 'Pete & Pedro', 'Taguig, Metro Manila'),
+(11, 'Rhistop', 'Cebu City'),
+(12, 'Emporium', 'Cebu City'),
+(13, 'Man Pomade', 'Bacolod City'),
+(14, 'Bosley', 'Cebu City'),
+(15, 'Supreme', 'Cebu City'),
+(16, 'Fear of God', 'Bacolod City'),
+(17, 'Nioxin', 'Quezon City'),
+(18, 'Dove Men', 'Bonifacio Global City'),
+(19, 'Nivea', 'Iligan, Lanao del Norte');
 
 -- --------------------------------------------------------
 
@@ -405,22 +528,31 @@ INSERT INTO `transactionitems` (`transitemID`, `prodID`, `transID`) VALUES
 --
 
 --
--- Indexes for table `branch`
---
-ALTER TABLE `branch`
-  ADD PRIMARY KEY (`branchID`);
-
---
 -- Indexes for table `customer`
 --
 ALTER TABLE `customer`
   ADD PRIMARY KEY (`CustomerID`);
 
 --
+-- Indexes for table `delivery`
+--
+ALTER TABLE `delivery`
+  ADD PRIMARY KEY (`deliveryID`),
+  ADD KEY `fk_delivery_supplier` (`supplierID`),
+  ADD KEY `fk_delivery_product` (`prodID`);
+
+--
 -- Indexes for table `employee`
 --
 ALTER TABLE `employee`
   ADD PRIMARY KEY (`employeeID`);
+
+--
+-- Indexes for table `employeetype`
+--
+ALTER TABLE `employeetype`
+  ADD PRIMARY KEY (`typeID`),
+  ADD KEY `fk_employeeType_employee` (`employeeID`);
 
 --
 -- Indexes for table `product`
@@ -459,6 +591,12 @@ ALTER TABLE `servicetransaction`
   ADD KEY `fk_servTrans_servRec` (`servRecID`);
 
 --
+-- Indexes for table `supplier`
+--
+ALTER TABLE `supplier`
+  ADD PRIMARY KEY (`supplierID`);
+
+--
 -- Indexes for table `transactionitems`
 --
 ALTER TABLE `transactionitems`
@@ -471,62 +609,76 @@ ALTER TABLE `transactionitems`
 --
 
 --
--- AUTO_INCREMENT for table `branch`
---
-ALTER TABLE `branch`
-  MODIFY `branchID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
---
 -- AUTO_INCREMENT for table `customer`
 --
 ALTER TABLE `customer`
-  MODIFY `CustomerID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
-
+  MODIFY `CustomerID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
+--
+-- AUTO_INCREMENT for table `delivery`
+--
+ALTER TABLE `delivery`
+  MODIFY `deliveryID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
 --
 -- AUTO_INCREMENT for table `employee`
 --
 ALTER TABLE `employee`
   MODIFY `employeeID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
-
+--
+-- AUTO_INCREMENT for table `employeetype`
+--
+ALTER TABLE `employeetype`
+  MODIFY `typeID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 --
 -- AUTO_INCREMENT for table `product`
 --
 ALTER TABLE `product`
   MODIFY `prodID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
-
 --
 -- AUTO_INCREMENT for table `producttransaction`
 --
 ALTER TABLE `producttransaction`
   MODIFY `prodTransID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
-
 --
 -- AUTO_INCREMENT for table `service`
 --
 ALTER TABLE `service`
   MODIFY `serviceID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
-
 --
 -- AUTO_INCREMENT for table `servicerecord`
 --
 ALTER TABLE `servicerecord`
   MODIFY `ServRecID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
-
 --
 -- AUTO_INCREMENT for table `servicetransaction`
 --
 ALTER TABLE `servicetransaction`
   MODIFY `servTransID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
-
+--
+-- AUTO_INCREMENT for table `supplier`
+--
+ALTER TABLE `supplier`
+  MODIFY `supplierID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 --
 -- AUTO_INCREMENT for table `transactionitems`
 --
 ALTER TABLE `transactionitems`
   MODIFY `transitemID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
-
 --
 -- Constraints for dumped tables
 --
+
+--
+-- Constraints for table `delivery`
+--
+ALTER TABLE `delivery`
+  ADD CONSTRAINT `fk_delivery_product` FOREIGN KEY (`prodID`) REFERENCES `product` (`prodID`),
+  ADD CONSTRAINT `fk_delivery_supplier` FOREIGN KEY (`supplierID`) REFERENCES `supplier` (`supplierID`);
+
+--
+-- Constraints for table `employeetype`
+--
+ALTER TABLE `employeetype`
+  ADD CONSTRAINT `fk_employeeType_employee` FOREIGN KEY (`employeeID`) REFERENCES `employee` (`employeeID`);
 
 --
 -- Constraints for table `producttransaction`
@@ -539,8 +691,8 @@ ALTER TABLE `producttransaction`
 --
 ALTER TABLE `servicetransaction`
   ADD CONSTRAINT `fk_servTrans_servRec` FOREIGN KEY (`servRecID`) REFERENCES `servicerecord` (`ServRecID`),
-  ADD CONSTRAINT `fk_servicetransaction_customer` FOREIGN KEY (`customerID`) REFERENCES `customer` (`CustomerID`) ON DELETE CASCADE,
-  ADD CONSTRAINT `fk_servicetransaction_employee` FOREIGN KEY (`employeeID`) REFERENCES `employee` (`employeeID`) ON DELETE CASCADE;
+  ADD CONSTRAINT `fk_servicetransaction_customer` FOREIGN KEY (`customerID`) REFERENCES `customer` (`CustomerID`),
+  ADD CONSTRAINT `fk_servicetransaction_employee` FOREIGN KEY (`employeeID`) REFERENCES `employee` (`employeeID`);
 
 --
 -- Constraints for table `transactionitems`
